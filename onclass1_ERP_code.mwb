@@ -1,0 +1,64 @@
+create table supplies (
+supplies_ID int 				primary key auto_increment,
+supplies_name varchar (255) 	not null unique
+);
+
+create table warehouse_export (
+warehouse_export_ID int 		primary key auto_increment,
+export_date datetime 			not null
+);
+
+create table warehouse_receive (
+warehouse_receive_ID int		primary key auto_increment,
+receive_date datetime			not null
+);
+
+create table export (
+supplies_ID int, 				
+warehouse_export_ID int,		
+export_price float 				not null check (export_price>0),
+export_quantity int				not null check (export_quantity>0),
+primary key (supplies_ID,warehouse_export_ID),
+foreign key (supplies_ID) references supplies (supplies_ID),
+foreign key (warehouse_export_ID) references warehouse_export (warehouse_export_ID)
+);
+
+create table receive (
+supplies_ID int,
+warehouse_receive_ID int,
+receive_price float 				not null check (receive_price>0),
+receive_quantity int				not null check (receive_quantity>0),
+primary key (supplies_ID,warehouse_receive_ID),
+foreign key (supplies_ID) references supplies (supplies_ID),
+foreign key (warehouse_receive_ID) references warehouse_receive (warehouse_receive_ID)
+);
+
+create table supplier (
+supplier_ID int						primary key auto_increment,
+supplier_name varchar(255)			not null unique,
+supplier_address varchar(255)		not null,
+phone_number varchar(10)			not null unique
+);
+
+create table order_form (
+order_form_ID int					primary key auto_increment,
+supplier_ID int						not null,
+order_form_date datetime			not null,
+foreign key (supplier_ID) references supplier (supplier_ID)
+);
+
+create table get_order (
+supplies_ID int,
+order_form_ID int,
+primary key (supplies_ID,order_form_ID),
+foreign key (supplies_ID) references supplies (supplies_ID),
+foreign key (order_form_ID) references order_form (order_form_ID)
+);
+
+
+
+
+-- drop database supplies_management;
+-- create database supplies_management;
+
+

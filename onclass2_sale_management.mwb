@@ -1,0 +1,31 @@
+create database sale_management;
+use sale_management;
+
+create table customer (
+cID int					primary key auto_increment,
+cName varchar(255)		not null unique,
+cAge int				not null check (cAge>0)
+);
+
+create table orders (
+oID int					primary key auto_increment,
+cID int,
+oDate datetime			not null,
+oTotalPrice float		not null check (oTotalPrice>0),
+foreign key (cID) references customer (cID)
+);
+
+create table products (
+pID int					primary key auto_increment,
+pName varchar(255)		not null unique,
+pPrice float			not null check (pPrice>0)
+);
+
+create table OrderDetail (
+oID int,
+pID int,
+odQTy int 				not null check (odQTy>0),
+primary key (oID,pID),
+foreign key (oID) references orders (oID),
+foreign key (pID) references products (pID)
+);
